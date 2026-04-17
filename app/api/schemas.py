@@ -84,3 +84,33 @@ class BuildOrderOut(BaseModel):
 class ReorderIn(BaseModel):
     village_id: int
     ordered_ids: list[int]
+
+
+class StrategyApplyIn(BaseModel):
+    strategy_name: str = Field(..., min_length=1, max_length=128)
+
+
+class StrategyApplyOut(BaseModel):
+    strategy_name: str
+    build_orders_inserted: int
+    troop_goals_upserted: int
+    gates_inserted: int
+    hero_policy_written: bool
+
+
+class StrategyGateOut(BaseModel):
+    id: int
+    village_id: int
+    step: int
+    kind: str
+    priority: int
+    prompt: str | None
+    rule: str | None
+    status: str
+    resolution_note: str | None
+
+    model_config = {"from_attributes": True}
+
+
+class StrategyGateResolveIn(BaseModel):
+    note: str | None = Field(default=None, max_length=512)

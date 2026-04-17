@@ -39,6 +39,13 @@ class HeroStats(Base, TimestampMixin):
 
     # Adventures
     adventures_available: Mapped[int] = mapped_column(default=0)
+    # Monotonic counter of adventures successfully dispatched by the bot.
+    # The strategy's adventure-reward sequence (1=horse, 2=resources, …) is
+    # indexed by the *Nth adventure completed* in Travian Legends, so we need
+    # to track how many the hero has done since this bot started.
+    adventures_completed: Mapped[int] = mapped_column(
+        default=0, server_default="0"
+    )
 
     # Inventory snapshot. `equipment_json` is a list of dicts
     # `[{slot, empty, rarity, quality}, ...]`, `bag_count` is the number of

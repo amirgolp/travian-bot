@@ -9,7 +9,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
 from app.api import (
-    accounts, build, farmlists, hero, map_tiles, reports, troop_goals, villages,
+    accounts,
+    build,
+    farmlists,
+    hero,
+    map_tiles,
+    reports,
+    strategy,
+    troop_goals,
+    villages,
 )
 from app.core.account_manager import get_manager
 from app.core.config import get_settings
@@ -57,6 +65,7 @@ async def lifespan(_: FastAPI):
             "ADD COLUMN IF NOT EXISTS equipment_json TEXT DEFAULT '[]'",
             "ADD COLUMN IF NOT EXISTS bag_count INTEGER DEFAULT 0",
             "ADD COLUMN IF NOT EXISTS bag_items_json TEXT DEFAULT '[]'",
+            "ADD COLUMN IF NOT EXISTS adventures_completed INTEGER DEFAULT 0",
         ):
             await conn.execute(text(f"ALTER TABLE hero_stats {col_ddl}"))
         for col_ddl in (
@@ -106,6 +115,7 @@ def create_app() -> FastAPI:
     app.include_router(reports.router)
     app.include_router(hero.router)
     app.include_router(troop_goals.router)
+    app.include_router(strategy.router)
 
     @app.get("/health")
     async def health() -> dict:

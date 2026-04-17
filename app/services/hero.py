@@ -13,7 +13,7 @@ Dispatch rules (gated by HeroController being enabled):
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -24,6 +24,7 @@ from app.core.logging import get_logger
 from app.models.account import Account
 from app.models.hero import HeroStats
 from app.services.hero_item_data import item_info
+from app.services.strategy import expected_reward, get_hero_policy
 
 log = get_logger("service.hero")
 
@@ -124,7 +125,25 @@ async def sync_hero(
         # — the next sync will observe the decrement directly.
         existing.adventures_available = adv.count
 
-    existing.observed_at = datetime.now(tz=timezone.utc)
+    if dispatched:
+        # The strategy's reward sequence is indexed by *completed adventure
+        # number* (a Travian Legends mechanic). Bump the counter BEFORE
+        # looking up the expected reward so the log line matches the
+        # adventure we just sent.
+        existing.adventures_completed = (existing.adventures_completed or 0) + 1
+        policy = await get_hero_policy(db, account_id)
+        if policy is not None:
+            reward = expected_reward(policy, existing.adventures_completed)
+            if reward is not None:
+                log.info(
+                    "hero.adventure.expected_reward",
+                    account_id=account_id,
+                    adventure_number=existing.adventures_completed,
+                    prefer=reward.prefer,
+                    post=reward.post,
+                )
+
+    existing.observed_at = datetime.now(tz=UTC)
     await db.flush()
 
     log.info(

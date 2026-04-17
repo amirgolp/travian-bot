@@ -7,6 +7,8 @@ from app.models.raid import Raid, RaidStatus
 from app.models.build import BuildOrder, BuildOrderStatus, BuildingSlot
 from app.models.report import Report, ReportType
 from app.models.hero import HeroStats
+from app.models.hero_policy import HeroPolicy
+from app.models.strategy_gate import StrategyGate, StrategyGateKind, StrategyGateStatus
 from app.models.troop_goal import TroopGoal
 
 __all__ = [
@@ -27,6 +29,10 @@ __all__ = [
     "BuildingSlot",
     "Report",
     "ReportType",
+    "HeroPolicy",
     "HeroStats",
+    "StrategyGate",
+    "StrategyGateKind",
+    "StrategyGateStatus",
     "TroopGoal",
 ]

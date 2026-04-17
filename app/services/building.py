@@ -20,16 +20,16 @@ Why this shape:
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.browser.pages.build import BuildPage
-from app.browser.pages.dorf import Dorf1Page, Dorf2Page
+from app.browser.pages.dorf import Dorf1Page
 from app.browser.session import BrowserSession
 from app.core.logging import get_logger
-from app.models.build import BuildOrder, BuildOrderStatus, BuildingSlot
+from app.models.build import BuildingSlot, BuildOrder, BuildOrderStatus
 from app.models.village import Village
 from app.services.building_data import BuildingDef, Prereq, get, load_buildings
 
@@ -310,6 +310,22 @@ async def tick(db: AsyncSession, session: BrowserSession, village: Village) -> s
     ).scalars().all()
     log.debug("build.queue.size", village_id=village.id, orders=len(queued))
 
+    # Honor strategy gates: any pending gate stops the queue at its priority.
+    # Orders past the gate stay QUEUED but won't dispatch until the gate is
+    # resolved/skipped from the dashboard (or a policy controller clears it).
+    from app.services.strategy import pending_gate_priority  # local: avoid cycle
+    gate_cutoff = await pending_gate_priority(db, village.id)
+    if gate_cutoff is not None:
+        before = len(queued)
+        queued = [o for o in queued if o.priority < gate_cutoff]
+        if len(queued) < before:
+            log.info(
+                "build.gate.holding",
+                village_id=village.id,
+                cutoff=gate_cutoff,
+                held=before - len(queued),
+            )
+
     defs = load_buildings()
     for order in queued:
         defn = defs.get(order.building_key)
@@ -372,7 +388,7 @@ async def tick(db: AsyncSession, session: BrowserSession, village: Village) -> s
 
         if ok:
             order.status = BuildOrderStatus.IN_PROGRESS
-            order.completes_at = datetime.now(tz=timezone.utc)
+            order.completes_at = datetime.now(tz=UTC)
             existing = (
                 await db.execute(
                     select(BuildingSlot).where(
