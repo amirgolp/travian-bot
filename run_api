@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")"
-. .venv/bin/activate
+
+if [ ! -d .venv ]; then
+  python -m venv .venv
+  . .venv/bin/activate
+  pip install -e .[dev]
+else
+  . .venv/bin/activate
+fi
+
+docker compose up -d
+
 exec uvicorn app.main:app --reload "$@"

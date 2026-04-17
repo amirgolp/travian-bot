@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/dashboard"
+
+if [ ! -d node_modules ]; then
+  yarn install
+fi
+
 exec yarn dev "$@"
