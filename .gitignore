@@ -1,0 +1,29 @@
+node_modules/
+config.json
+*.session
+logs/
+screenshots/
+accounts/
+PAUSE_BOT
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Browser profiles (cookies, storage, fingerprint seeds per account)
+.profiles/
+.venv/
+.claude/
+samples/
+.env/

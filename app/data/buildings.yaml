@@ -1,0 +1,49 @@
+# Travian Legends (T4.6) building reference.
+#
+# Format per entry:
+#   key: machine identifier (snake_case)
+#   gid: Travian's internal building id (used in ?gid=N URLs)
+#   name: display name (English)
+#   category: "resource" | "infrastructure" | "military" | "defense"
+#   placement: "dorf1" | "dorf2" | "both"  (where the slot lives)
+#   max_level: upgrade cap (capital can go higher for resource fields, handled separately)
+#   unique: true if only one per village
+#   prereqs: list of { key, level } required at the same village
+#
+# This is a working subset — enough for the solver to handle common pipelines.
+# Extend it as needed; the solver reads the file at startup.
+
+buildings:
+  # --- Resource fields (dorf1) ---
+  - { key: woodcutter,   gid: 1,  name: Woodcutter,   category: resource, placement: dorf1, max_level: 20, unique: false, prereqs: [] }
+  - { key: clay_pit,     gid: 2,  name: Clay Pit,     category: resource, placement: dorf1, max_level: 20, unique: false, prereqs: [] }
+  - { key: iron_mine,    gid: 3,  name: Iron Mine,    category: resource, placement: dorf1, max_level: 20, unique: false, prereqs: [] }
+  - { key: cropland,     gid: 4,  name: Cropland,     category: resource, placement: dorf1, max_level: 20, unique: false, prereqs: [] }
+
+  # --- Infrastructure (dorf2) ---
+  - { key: main_building, gid: 15, name: Main Building, category: infrastructure, placement: dorf2, max_level: 20, unique: true, prereqs: [] }
+  - { key: warehouse,     gid: 10, name: Warehouse,     category: infrastructure, placement: dorf2, max_level: 20, unique: false, prereqs: [ { key: main_building, level: 1 } ] }
+  - { key: granary,       gid: 11, name: Granary,       category: infrastructure, placement: dorf2, max_level: 20, unique: false, prereqs: [ { key: main_building, level: 1 } ] }
+  - { key: cranny,        gid: 23, name: Cranny,        category: infrastructure, placement: dorf2, max_level: 10, unique: false, prereqs: [] }
+  - { key: marketplace,   gid: 17, name: Marketplace,   category: infrastructure, placement: dorf2, max_level: 20, unique: true,  prereqs: [ { key: main_building, level: 3 }, { key: warehouse, level: 1 }, { key: granary, level: 1 } ] }
+  - { key: embassy,       gid: 18, name: Embassy,       category: infrastructure, placement: dorf2, max_level: 20, unique: true,  prereqs: [ { key: main_building, level: 1 } ] }
+  - { key: residence,     gid: 25, name: Residence,     category: infrastructure, placement: dorf2, max_level: 20, unique: true,  prereqs: [ { key: main_building, level: 5 } ] }
+  - { key: palace,        gid: 26, name: Palace,        category: infrastructure, placement: dorf2, max_level: 20, unique: true,  prereqs: [ { key: main_building, level: 5 }, { key: embassy, level: 1 } ] }
+  - { key: academy,       gid: 22, name: Academy,       category: infrastructure, placement: dorf2, max_level: 20, unique: true,  prereqs: [ { key: main_building, level: 3 }, { key: barracks, level: 3 } ] }
+  - { key: smithy,        gid: 13, name: Smithy,        category: infrastructure, placement: dorf2, max_level: 20, unique: true,  prereqs: [ { key: main_building, level: 3 }, { key: academy, level: 1 } ] }
+  - { key: tournament_square, gid: 14, name: Tournament Square, category: infrastructure, placement: dorf2, max_level: 20, unique: true, prereqs: [ { key: rally_point, level: 15 } ] }
+  - { key: trapper,       gid: 42, name: Trapper,       category: defense,        placement: dorf2, max_level: 20, unique: true, prereqs: [ { key: rally_point, level: 1 } ] }
+  - { key: hero_mansion,  gid: 37, name: "Hero's Mansion", category: infrastructure, placement: dorf2, max_level: 20, unique: true, prereqs: [ { key: main_building, level: 3 }, { key: rally_point, level: 1 } ] }
+  - { key: great_warehouse, gid: 38, name: Great Warehouse, category: infrastructure, placement: dorf2, max_level: 20, unique: false, prereqs: [ { key: main_building, level: 10 } ] }
+  - { key: great_granary,   gid: 39, name: Great Granary,   category: infrastructure, placement: dorf2, max_level: 20, unique: false, prereqs: [ { key: main_building, level: 10 } ] }
+
+  # --- Military (dorf2) ---
+  - { key: rally_point,   gid: 16, name: Rally Point,   category: military, placement: dorf2, max_level: 20, unique: true, prereqs: [] }
+  - { key: barracks,      gid: 19, name: Barracks,      category: military, placement: dorf2, max_level: 20, unique: true, prereqs: [ { key: main_building, level: 3 }, { key: rally_point, level: 1 } ] }
+  - { key: stable,        gid: 20, name: Stable,        category: military, placement: dorf2, max_level: 20, unique: true, prereqs: [ { key: academy, level: 5 }, { key: smithy, level: 3 } ] }
+  - { key: workshop,      gid: 21, name: Workshop,      category: military, placement: dorf2, max_level: 20, unique: true, prereqs: [ { key: academy, level: 10 }, { key: main_building, level: 5 } ] }
+  - { key: great_barracks,gid: 29, name: Great Barracks,category: military, placement: dorf2, max_level: 20, unique: true, prereqs: [ { key: barracks, level: 20 } ] }
+  - { key: great_stable,  gid: 30, name: Great Stable,  category: military, placement: dorf2, max_level: 20, unique: true, prereqs: [ { key: stable, level: 20 } ] }
+
+  # --- Walls / defensive (tribe-specific name, one gid family) ---
+  - { key: city_wall,     gid: 31, name: City Wall,     category: defense,  placement: dorf2, max_level: 20, unique: true, prereqs: [] }

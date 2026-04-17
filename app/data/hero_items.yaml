@@ -1,0 +1,65 @@
+# Travian Legends hero-item type ids -> human-readable names + effects.
+#
+# Each slot's items are keyed by the integer that appears on the inner
+# `<div class="item itemNNN">` in the inventory DOM. That id is STABLE across
+# servers/locales (it's the art asset id).
+#
+# Fields per entry:
+#   name         — readable name as shown in-game
+#   level        — 1..5 (matches the `quality<N>` class on the slot)
+#   description  — the item's passive effect exactly as it appears in the
+#                  in-game tooltip. Multiple effects joined with "; ".
+#
+# The descriptions below are seeded from the tooltips I've seen; correct them
+# when you hover an item in-game and the text differs. Unknown ids fall back
+# to "Item #<id>" with no description.
+
+slots:
+  helmet:
+    # 87: { name: "...", level: 1, description: "..." }
+  body:
+    91:
+      name: "Light Segmented Armour"
+      level: 1
+      description: "+75 fighting strength; +3 damage reduction"
+  shoes:
+    94:
+      name: "Light Shoes"
+      level: 1
+      description: "+25% hero running speed"
+  leftHand:
+    # e.g. shields, torch, pennant
+  rightHand:
+    # e.g. swords, spears, bow
+  horse:
+    103:
+      name: "Light Warhorse"
+      level: 1
+      description: "+14 fields/hour mounted speed"
+  # Consumable items (the grid under the hero). Counts come from the DOM
+  # cell text; the entry here only supplies name + description. Extend as
+  # needed — hover the item in-game and copy the tooltip. Ids below are
+  # best-guess seeds matched to a real inventory dump; correct them in-place
+  # when you verify.
+  bag:
+    106:
+      name: "Ointment"
+      description: "+5 hero health per use"
+    110:
+      name: "Book of Wisdom"
+      description: "Reset hero attribute points"
+    114:
+      name: "Cage"
+      description: "Capture one animal from a free oasis"
+    145:
+      name: "Wood (hero bag)"
+      description: "Carried wood — instantly delivered to a village"
+    146:
+      name: "Clay (hero bag)"
+      description: "Carried clay — instantly delivered to a village"
+    147:
+      name: "Iron (hero bag)"
+      description: "Carried iron — instantly delivered to a village"
+    148:
+      name: "Crop (hero bag)"
+      description: "Carried crop — instantly delivered to a village"

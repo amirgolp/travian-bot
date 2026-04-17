@@ -1,0 +1,112 @@
+# Per-tribe troop roster (t1..t10), indexed in order.
+# Only names + training building are encoded — we don't need stats for the
+# training controller. Add more tribes here as you play them; everything
+# else in the stack is already tribe-agnostic (positional t1..t10 keys).
+#
+# `building` is one of: barracks | stable | workshop | residence
+# - barracks  = gid 19
+# - stable    = gid 20
+# - workshop  = gid 21
+# - residence = gid 25 (chiefs/settlers)
+
+tribes:
+  roman:
+    t1: { name: "Legionnaire",          building: barracks }
+    t2: { name: "Praetorian",           building: barracks }
+    t3: { name: "Imperian",             building: barracks }
+    t4: { name: "Equites Legati",       building: stable }
+    t5: { name: "Equites Imperatoris",  building: stable }
+    t6: { name: "Equites Caesaris",     building: stable }
+    t7: { name: "Battering Ram",        building: workshop }
+    t8: { name: "Fire Catapult",        building: workshop }
+    t9: { name: "Senator",              building: residence }
+    t10: { name: "Settler",             building: residence }
+
+  teuton:
+    t1: { name: "Clubswinger",          building: barracks }
+    t2: { name: "Spearman",             building: barracks }
+    t3: { name: "Axeman",               building: barracks }
+    t4: { name: "Scout",                building: stable }
+    t5: { name: "Paladin",              building: stable }
+    t6: { name: "Teutonic Knight",      building: stable }
+    t7: { name: "Ram",                  building: workshop }
+    t8: { name: "Catapult",             building: workshop }
+    t9: { name: "Chief",                building: residence }
+    t10: { name: "Settler",             building: residence }
+
+  gaul:
+    t1: { name: "Phalanx",              building: barracks }
+    t2: { name: "Swordsman",            building: barracks }
+    t3: { name: "Pathfinder",           building: stable }
+    t4: { name: "Theutates Thunder",    building: stable }
+    t5: { name: "Druidrider",           building: stable }
+    t6: { name: "Haeduan",              building: stable }
+    t7: { name: "Ram",                  building: workshop }
+    t8: { name: "Trebuchet",            building: workshop }
+    t9: { name: "Chieftain",            building: residence }
+    t10: { name: "Settler",             building: residence }
+
+  egyptian:
+    t1: { name: "Slave Militia",        building: barracks }
+    t2: { name: "Ash Warden",           building: barracks }
+    t3: { name: "Khopesh Warrior",      building: barracks }
+    t4: { name: "Sopdu Explorer",       building: stable }
+    t5: { name: "Anhur Guard",          building: stable }
+    t6: { name: "Resheph Chariot",      building: stable }
+    t7: { name: "Ram",                  building: workshop }
+    t8: { name: "Stone Catapult",       building: workshop }
+    t9: { name: "Nomarch",              building: residence }
+    t10: { name: "Settler",             building: residence }
+
+  hun:
+    t1: { name: "Mercenary",            building: barracks }
+    t2: { name: "Bowman",               building: barracks }
+    t3: { name: "Spotter",              building: stable }
+    t4: { name: "Steppe Rider",         building: stable }
+    t5: { name: "Marksman",             building: stable }
+    t6: { name: "Marauder",             building: stable }
+    t7: { name: "Ram",                  building: workshop }
+    t8: { name: "Catapult",             building: workshop }
+    t9: { name: "Logades",              building: residence }
+    t10: { name: "Settler",             building: residence }
+
+  spartan:
+    t1: { name: "Hoplite",              building: barracks }
+    t2: { name: "Sentinel",             building: barracks }
+    t3: { name: "Shieldsman",           building: barracks }
+    t4: { name: "Twinsteel Therion",    building: stable }
+    t5: { name: "Elpida Rider",         building: stable }
+    t6: { name: "Corinthian Crusher",   building: stable }
+    t7: { name: "Ram",                  building: workshop }
+    t8: { name: "Ballista",             building: workshop }
+    t9: { name: "Ephor",                building: residence }
+    t10: { name: "Settler",             building: residence }
+
+  # Viking names per Legends roster — verify in-game once an account is live
+  # (this tribe is newer than the others so the names may drift).
+  viking:
+    t1: { name: "Scout",                building: barracks }
+    t2: { name: "Huscarl",              building: barracks }
+    t3: { name: "Berserker",            building: barracks }
+    t4: { name: "Spear Thrower",        building: stable }
+    t5: { name: "Axe Thrower",          building: stable }
+    t6: { name: "Raider",               building: stable }
+    t7: { name: "Ram",                  building: workshop }
+    t8: { name: "Catapult",             building: workshop }
+    t9: { name: "Jarl",                 building: residence }
+    t10: { name: "Settler",             building: residence }
+
+# Fallback used when the village's tribe is unknown. Names stay generic,
+# buildings follow the common pattern (t1..t3 barracks, t4..t6 stable,
+# t7..t8 workshop, t9..t10 residence) — true for all current tribes.
+default:
+  t1:  { name: "Infantry 1",  building: barracks }
+  t2:  { name: "Infantry 2",  building: barracks }
+  t3:  { name: "Infantry 3",  building: barracks }
+  t4:  { name: "Cavalry 1",   building: stable }
+  t5:  { name: "Cavalry 2",   building: stable }
+  t6:  { name: "Cavalry 3",   building: stable }
+  t7:  { name: "Siege 1",     building: workshop }
+  t8:  { name: "Siege 2",     building: workshop }
+  t9:  { name: "Chief",       building: residence }
+  t10: { name: "Settler",     building: residence }

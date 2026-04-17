@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: travian-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-travian}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-travian}
+      POSTGRES_DB: ${POSTGRES_DB:-travian}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - travian_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-travian}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  travian_pg_data:
